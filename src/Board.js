@@ -31,7 +31,6 @@ class Board extends Component {
       hasWon: false,
       board: this.createBoard(),
     }
-    // TODO: set initial state
   }
 
   // generate random board
@@ -45,6 +44,7 @@ class Board extends Component {
       }
       board.push(row);
     }
+
     return board
   }
 
@@ -62,18 +62,26 @@ class Board extends Component {
       }
     }
 
-    // TODO: flip this cell and the cells around it
+    // flipping cells
+    flipCell(y, x); // self
+    flipCell(y - 1, x); // above
+    flipCell(y, x + 1); // right
+    flipCell(y + 1, x); // below
+    flipCell(y, x - 1); // left
 
-    // win when every cell is turned off
-    // TODO: determine is the game has been won
+    // check if all cells are off
+    let hasWon = board.every(row => row.every(cell => !cell));
 
-    // this.setState({board, hasWon});
+    this.setState({board, hasWon});
   }
 
-
   render() {
-
-    // add win clause
+    // win clause
+    if (this.state.hasWon) {
+      return (
+        <p>You won</p>
+      )
+    }
 
     // making/updating the game board
     let tableFill = [];
@@ -81,7 +89,13 @@ class Board extends Component {
       let row = [];
       for (let x = 0; x < this.props.ncols; x++) {
         let coord = `${y}-${x}`
-        row.push(<Cell key={coord} isLit={this.state.board[y][x]} />)
+        row.push(
+          <Cell 
+            key={coord} 
+            isLit={this.state.board[y][x]} 
+            flipCellsAroundMe={() => this.flipCellsAround(coord)}  
+          />
+        );
       }
       tableFill.push(<tr key={y}>{row}</tr>);
     }
