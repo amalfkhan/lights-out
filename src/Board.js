@@ -21,7 +21,7 @@ import './Board.css';
 class Board extends Component {
   static defaultProps = {
     nrows: 5,
-    ncols: 7,
+    ncols: 5,
     chanceLightStartsOn: 0.25,
   };
 
@@ -64,10 +64,10 @@ class Board extends Component {
 
     // flipping cells
     flipCell(y, x); // self
-    flipCell(y - 1, x); // above
-    flipCell(y, x + 1); // right
-    flipCell(y + 1, x); // below
-    flipCell(y, x - 1); // left
+    // flipCell(y - 1, x); // above
+    // flipCell(y, x + 1); // right
+    // flipCell(y + 1, x); // below
+    // flipCell(y, x - 1); // left
 
     // check if all cells are off
     let hasWon = board.every(row => row.every(cell => !cell));
@@ -75,11 +75,23 @@ class Board extends Component {
     this.setState({board, hasWon});
   }
 
+  // makeBoard() {
+
+  // }
+
   render() {
     // win clause
     if (this.state.hasWon) {
       return (
-        <p>You won</p>
+        <div> 
+          <div className='Board-title'>
+            <div className='winner'>
+              <span className='neon'>YOU</span>
+              <span className='flux'>WIN!</span>
+            </div>
+
+          </div>
+        </div>
       )
     }
 
@@ -101,11 +113,19 @@ class Board extends Component {
     }
 
     return (
-      <table className="Board">
-        <tbody>
-          {tableFill}
-        </tbody>
-      </table>
+      <div> 
+        <div className='Board-title'>
+          <div className='neon'>Lights</div>
+          <div className='flux'>Out</div>
+        </div>
+
+        <table className="Board">
+          <tbody>
+            {tableFill}
+          </tbody>
+        </table>
+      </div>
+
     );
   }
 }
